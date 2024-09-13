@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
+import "./db"; 
 dotenv.config(); // Cargar variables del archivo .env
 
 const app: Application = express();

@@ -1,5 +1,7 @@
 import mysql from 'mysql2';
+import dotenv from 'dotenv';
 
+dotenv.config();  // Carga las variables de entorno
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -8,7 +10,6 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-
 connection.connect((err: mysql.QueryError | null) => {
   if (err) {
     console.error('Error de conexión a MySQL:', err);
@@ -16,6 +17,5 @@ connection.connect((err: mysql.QueryError | null) => {
   }
   console.log('Conectado a la base de datos MySQL');
 });
-
 
 export default connection;
