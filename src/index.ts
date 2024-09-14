@@ -1,20 +1,23 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import './db'; 
-import { setupSwagger } from './swagger/swaggerConfig';
+import "./db"; 
+import userRoutes from './routes/userRoutes'; 
+import { errorHandler } from './middleware/errorHandler';
 
-dotenv.config(); // Cargar variables del archivo .env
+dotenv.config();
 
 const app: Application = express();
 const port = process.env.PORT || 5000;
 
-
 app.use(cors());
 app.use(express.json());
 
-setupSwagger(app);
+// Usar las rutas de usuario
+app.use(userRoutes);
 
+// Middleware para el manejo de errores
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en el puerto ${port}`);
