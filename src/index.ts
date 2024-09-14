@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import './db'; 
 import { setupSwagger } from './swagger/swaggerConfig';
 
 dotenv.config(); // Cargar variables del archivo .env
