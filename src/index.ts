@@ -3,8 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import "./db"; 
 import userRoutes from './routes/userRoutes'; 
-import { errorHandler } from './middleware/errorHandler';
+import collectionRoutes from './routes/collectionRoutes'; 
 
+import { errorHandler } from './middleware/errorHandler';
 dotenv.config();
 
 const app: Application = express();
@@ -15,7 +16,7 @@ app.use(express.json());
 
 // Usar las rutas de usuario
 app.use(userRoutes);
-
+app.use(collectionRoutes); 
 // Middleware para el manejo de errores
 app.use(errorHandler);
 
