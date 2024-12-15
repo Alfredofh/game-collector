@@ -19,3 +19,10 @@ export const getCollectionByUser = async (userId: number): Promise<Collection[]>
     );
     return rows;
 };
+
+export const getCollectionById = async (collectionId: number, userId: number): Promise<Collection> => {
+    const [row] = await connection.promise().query<Collection & RowDataPacket[]>(
+        'SELECT * FROM Collections WHERE id = ? AND user_id = ?', [collectionId, userId]
+    );
+    return row;
+}; 

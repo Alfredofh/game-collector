@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createCollection, getCollectionByUser } from '../queries/collectionQueries';
+import { createCollection, getCollectionByUser, getCollectionById } from '../queries/collectionQueries';
 import { Collection } from '../models/Collection';
 import { AuthenticatedRequest } from '../types/AuthenticatedRequest';
 
@@ -38,3 +38,28 @@ export const getCollectionsController = async (req: AuthenticatedRequest, res: R
         res.status(500).json({ message: 'Error interno del servidor' });
     }
 }
+
+export const getCollectionByIdController = async (req: AuthenticatedRequest, res: Response) => {
+    const userId = req.user?.id; // Obtenemos el userId del token
+    const collectionId = parseInt(req.params.id, 10); // Obtenemos el collectionId de los parámetros de la URL
+
+    if (!userId) {
+        return res.status(401).json({ message: 'No estás autenticado' });
+    }
+
+    if (isNaN(collectionId)) {
+        return res.status(400).json({ message: 'El ID de la colección no es válido' });
+    }
+
+    try {
+        const collection = await getCollectionById(collectionId, userId);
+        if (!collection) {
+            return res.status(404).json({ message: 'Colección no encontrada o no autorizada' });
+        }
+
+        res.status(200).json(collection);
+    } catch (error) {
+        console.error('Error al obtener la colección:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+};
