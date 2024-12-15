@@ -5,6 +5,6 @@ import { authenticateJWT } from '../middleware/authenticateJWT';
 const router = Router();
 
 // Ruta para crear una nueva colección
-router.post('/api/colecciones', authenticateJWT, createCollectionController);
+router.post('/api/collection', authenticateJWT, createCollectionController);
 
 export default router;
