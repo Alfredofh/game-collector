@@ -1,17 +1,14 @@
 import { Request, Response } from 'express';
-import { createCollection } from '../queries/collectionQueries';
+import { createCollection, getCollectionByUser } from '../queries/collectionQueries';
 import { Collection } from '../models/Collection';
 import { AuthenticatedRequest } from '../types/AuthenticatedRequest';
 
 export const createCollectionController = async (req: AuthenticatedRequest, res: Response) => {
     const { name } = req.body;
     const userId = req.user?.id;
-    console.log("ID de usuario", userId); 
-    // Validar que se han enviado los campos necesarios
     if (!name || !userId) {
         return res.status(400).json({ message: 'Nombre y ID de usuario son obligatorios' });
     }
-
     try {
         const newCollection: Collection = {
             name,
@@ -27,3 +24,17 @@ export const createCollectionController = async (req: AuthenticatedRequest, res:
         res.status(500).json({ message: 'Error interno del servidor' });
     }
 };
+
+export const getCollectionsController = async (req: AuthenticatedRequest, res: Response) => {
+    const userId = req.user?.id;
+    if (!userId) {
+        return res.status(401).json({ message: 'No estás autenticado' });
+    }
+    try {
+        const collections = await getCollectionByUser(userId);
+        res.json(collections);
+    } catch (error) {
+        console.error('Error al obtener las colecciones:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+}
