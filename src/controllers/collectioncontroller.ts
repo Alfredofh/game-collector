@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { createCollection, getCollectionByUser, getCollectionById } from '../queries/collectionQueries';
+import { createCollection, getCollectionByUser, getCollectionById, updateCollection } from '../queries/collectionQueries';
 import { Collection } from '../models/Collection';
 import { AuthenticatedRequest } from '../types/AuthenticatedRequest';
+import { log } from 'console';
 
 export const createCollectionController = async (req: AuthenticatedRequest, res: Response) => {
     const { name } = req.body;
@@ -60,6 +61,29 @@ export const getCollectionByIdController = async (req: AuthenticatedRequest, res
         res.status(200).json(collection);
     } catch (error) {
         console.error('Error al obtener la colección:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+};
+
+export const updateCollectionController = async (req: AuthenticatedRequest, res: Response) => {
+    const collectionId = parseInt(req.params.id, 10);
+
+    const userId = req.user?.id;
+    const { name } = req.body;
+    if (!collectionId || !userId || !name) {
+        return res.status(400).json({ message: 'Nombre, ID de colección e ID de usuario son obligatorios' });
+    }
+
+    try {
+        const affectedRows = await updateCollection(collectionId, userId, name);
+
+        if (affectedRows === 0) {
+            return res.status(404).json({ message: 'Colección no encontrada o no autorizada' });
+        }
+
+        res.status(200).json({ message: 'Colección actualizada exitosamente' });
+    } catch (error) {
+        console.error('Error al actualizar la colección:', error);
         res.status(500).json({ message: 'Error interno del servidor' });
     }
 };
