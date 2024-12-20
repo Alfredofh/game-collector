@@ -36,3 +36,12 @@ export const updateCollection = async (collectionId: number, userId: number, nam
     return result.affectedRows; // Retorna el número de filas afectadas
 };
 
+export const deleteCollection = async (collectionId: number, userId: number): Promise<boolean> => {
+    const [result] = await connection.promise().query<ResultSetHeader>(
+        'DELETE FROM Collections WHERE id = ? AND user_id = ?',
+        [collectionId, userId]
+    );
+    return result.affectedRows > 0; // Devuelve true si se eliminó algo, false si no
+};
+
+
