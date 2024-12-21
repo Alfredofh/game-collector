@@ -1,4 +1,3 @@
-// src/routes/collectionRoutes.ts
 import { Router } from 'express';
 import { createCollectionController, getCollectionsController, getCollectionByIdController, updateCollectionController, deleteCollectionByIdController } from '../controllers/collectioncontroller';
 import { authenticateJWT } from '../middleware/authenticateJWT';
