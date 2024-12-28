@@ -5,7 +5,7 @@ import "./db";
 import userRoutes from './routes/userRoutes';
 import collectionRoutes from './routes/collectionRoutes';
 import igdb from './routes/igdbRoutes';
-
+import gameRoutes from './routes/gameRoutes';
 import { errorHandler } from './middleware/errorHandler';
 dotenv.config();
 
@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(userRoutes);
 app.use(collectionRoutes);
 app.use(igdb);
+app.use(gameRoutes);
 // Middleware para el manejo de errores
 app.use(errorHandler);
 
