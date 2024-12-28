@@ -24,16 +24,34 @@ export const getCollectionByUser = async (userId: number): Promise<Collection[]>
     return result.rows;
 };
 
-// Obtener una colección específica
+// Obtener una colección específica con sus videojuegos
 export const getCollectionById = async (collectionId: number, userId: number): Promise<Collection | null> => {
     const query = `
-        SELECT * FROM Collections
-        WHERE id = $1 AND user_id = $2;
+        SELECT 
+            c.*,
+            json_agg(
+                json_build_object(
+                    'id', v.id,
+                    'name', v.name,
+                    'platform', v.platform,
+                    'release_year', v.release_year,
+                    'value', v.value,
+                    'upc', v.upc,
+                    'ean', v.ean,
+                    'description', v.description,
+                    'image_url', v.image_url
+                )
+            ) AS video_games
+        FROM Collections c
+        LEFT JOIN VideoGames v ON c.id = v.collection_id
+        WHERE c.id = $1 AND c.user_id = $2
+        GROUP BY c.id;
     `;
     const values = [collectionId, userId];
     const result = await pool.query(query, values);
     return result.rows[0] || null;
 };
+
 
 // Actualizar una colección
 export const updateCollection = async (collectionId: number, userId: number, name: string): Promise<number> => {
