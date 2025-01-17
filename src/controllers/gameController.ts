@@ -81,6 +81,7 @@ export const deleteGameByIdController = async (req: AuthenticatedRequest, res: R
 
     try {
         const success = await deleteGame(gameId, userId);
+        console.log(success);
         if (!success) {
             return res.status(404).json({ message: 'Juego no encontrado o no autorizado' });
         }
