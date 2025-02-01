@@ -7,7 +7,6 @@ import collectionRoutes from './routes/collectionRoutes';
 import igdb from './routes/igdbRoutes';
 import gameRoutes from './routes/gameRoutes';
 import { errorHandler } from './middleware/errorHandler';
-dotenv.config();
 
 const app: Application = express();
 const port = process.env.PORT || 5000;

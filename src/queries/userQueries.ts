@@ -23,3 +23,4 @@ export const createUser = async (user: User): Promise<number> => {
     const result = await pool.query(query, values);
     return result.rows[0].id;
 };
+
