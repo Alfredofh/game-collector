@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { registerUser, loginUser } from '../controllers/userController';
 import { validateUser } from '../middleware/validateUser';
-import { requestPasswordResetController } from '../controllers/authConroller';
+import { requestPasswordResetController } from '../controllers/resetPassController';
 const router = Router();
 
 // Ruta para registrar un nuevo usuario
