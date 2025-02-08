@@ -1,7 +1,7 @@
 export interface Game {
     id?: number;
     name: string;
-    platform?: string;
+    platform?: { name: string }[];
     release_year?: number;
     value?: number;
     upc?: string;
