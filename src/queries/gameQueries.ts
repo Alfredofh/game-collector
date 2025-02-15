@@ -41,7 +41,7 @@ export const updateGame = async (game: Game, gameId: number): Promise<number> =>
     `;
     const values = [
         game.name,
-        game.platform,
+        JSON.stringify(game.platform),
         game.release_year,
         game.value,
         game.upc,
